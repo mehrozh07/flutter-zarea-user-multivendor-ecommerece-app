@@ -1,0 +1,70 @@
+name: zarea_user
+description: A new Flutter project.
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.2 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.2
+  firebase_core: ^1.21.1
+  firebase_storage: ^10.3.7
+  firebase_auth: ^3.7.0
+  flutter_screenutil: ^5.5.3+2
+  cloud_firestore: ^3.4.6
+  provider: ^6.0.3
+  carousel_slider: ^4.1.1
+  google_fonts: ^3.0.1
+  dots_indicator: ^2.1.0
+  shared_preferences: ^2.0.15
+  google_maps_flutter: ^2.1.12
+  loading_indicator: ^3.1.0
+  location: ^4.4.0
+  geolocator: ^9.0.1
+  flutter_spinkit: ^5.1.0
+  another_flushbar: ^1.10.29
+  persistent_bottom_nav_bar: ^5.0.2
+  path:
+  flutter_geocoder: ^0.2.2-nullsafety
+  shimmer: ^2.0.0
+  paginate_firestore: ^1.0.3+1
+  url_launcher: ^6.1.6
+  map_launcher: ^2.4.0
+  expandable_text: ^2.3.0
+  flutter_easyloading: ^3.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^2.0.0
+
+
+flutter:
+
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Bold.ttf
+          weight: 700
+        - asset: fonts/Lato-Regular.ttf
+
+    - family: Anton
+      fonts:
+        - asset: fonts/Anton-Regular.ttf

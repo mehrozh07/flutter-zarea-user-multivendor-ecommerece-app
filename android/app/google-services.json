@@ -1,0 +1,113 @@
+{
+  "project_info": {
+    "project_number": "674964814559",
+    "project_id": "zarea-36659",
+    "storage_bucket": "zarea-36659.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674964814559:android:2a8d6efd5665310db5876a",
+        "android_client_info": {
+          "package_name": "com.example.zarea_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674964814559-ani16pc0q0hepj8i8dnbosklrnm6vpbk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0CWb8fw_Uw-i2wjguiGBCo-MOCkAZ0i8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674964814559-ani16pc0q0hepj8i8dnbosklrnm6vpbk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674964814559:android:2b0c007891773837b5876a",
+        "android_client_info": {
+          "package_name": "com.mehrozh.zarea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674964814559-a5n5928cv4r04fg2mml1t9n5rt5s1i5a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mehrozh.zarea",
+            "certificate_hash": "bb4de42416323d246f2bc659ee69e97ccacc0afd"
+          }
+        },
+        {
+          "client_id": "674964814559-ani16pc0q0hepj8i8dnbosklrnm6vpbk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0CWb8fw_Uw-i2wjguiGBCo-MOCkAZ0i8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674964814559-ani16pc0q0hepj8i8dnbosklrnm6vpbk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674964814559:android:c7e51887ef030007b5876a",
+        "android_client_info": {
+          "package_name": "com.mehroztech.zarea_vendor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674964814559-krrdsrjnami32j75rrt5cpfmitlg5veo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mehroztech.zarea_vendor",
+            "certificate_hash": "9ccdb1f5bce14290fd051fc3c60b79dfd2f34779"
+          }
+        },
+        {
+          "client_id": "674964814559-ani16pc0q0hepj8i8dnbosklrnm6vpbk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0CWb8fw_Uw-i2wjguiGBCo-MOCkAZ0i8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674964814559-ani16pc0q0hepj8i8dnbosklrnm6vpbk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
