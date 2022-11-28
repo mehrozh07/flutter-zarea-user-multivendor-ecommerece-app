@@ -150,13 +150,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   auth.loading = true;
                                 });
                                 String number = "+92${phoneNumberC.text}";
-                                auth.verifyPhone(
-                                   context: context,
-                                    number: number,
-                                  //  latitude: null,
-                                  // longitude: null,
-                                  // address: null,
-                                ).then((value) {
+                                auth.verifyPhone(context: context, number: number,).then((value) {
                                   phoneNumberC.clear();
                                   auth.loading = false;
                                 });

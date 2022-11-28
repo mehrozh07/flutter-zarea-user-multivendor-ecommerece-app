@@ -10,13 +10,11 @@ class BottomSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          SaveLater(snapshot: snapshot,),
-          AddToCartWidget(snapshot: snapshot),
-        ],
-      ),
+    return Row(
+      children: [
+        SaveLater(snapshot: snapshot,),
+        AddToCartWidget(snapshot: snapshot),
+      ],
     );
   }
 }

@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zarea_user/auth_providers/location_provider.dart';
+import 'package:zarea_user/bottomBar/main_screen.dart';
 import 'package:zarea_user/services/user_services.dart';
 import 'package:zarea_user/utils/error_message.dart';
-import '../screens/home_page.dart';
 import '../screens/landing_page,dart.dart';
+
+
 class AuthProviders extends ChangeNotifier{
   FirebaseAuth auth = FirebaseAuth.instance;
    String? smsOTP;
@@ -20,11 +23,12 @@ class AuthProviders extends ChangeNotifier{
    double? latitude;
    double? longitude;
    String? location;
-   BuildContext? context;
+   DocumentSnapshot? documentSnapshot;
+
+
   Future<void> verifyPhone({ BuildContext? context,  String? number}) async{
     loading = true;
     notifyListeners();
-
     verificationCompleted(PhoneAuthCredential phoneAuthCredential) async{
       loading = false;
       notifyListeners();
@@ -33,7 +37,7 @@ class AuthProviders extends ChangeNotifier{
     verificationFailed(FirebaseAuthException e){
       debugPrint(e.code);
       loading = false;
-      Utils.flushBarErrorMessage(e.code, context!);
+      error = e.toString();
       notifyListeners();
     }
 
@@ -56,7 +60,7 @@ class AuthProviders extends ChangeNotifier{
 
     }catch(e){
       debugPrint(e.toString());
-      Utils.flushBarErrorMessage(e.toString(), context!);
+     error = e.toString();
       loading=false;
       notifyListeners();
     }
@@ -101,7 +105,6 @@ class AuthProviders extends ChangeNotifier{
                      smsCode: smsOTP!,
                  );
                  final User? user = (await auth.signInWithCredential(poneAuthCredential)).user;
-
                  if(user!=null){
                    loading = false;
                    notifyListeners();
@@ -110,11 +113,8 @@ class AuthProviders extends ChangeNotifier{
                        if(screen=='Login'){
                       Navigator.pushReplacementNamed(context, LandingPage.id);
                        }else{
-                         if (kDebugMode) {
-                           print("${locationProvider.selectedAddress.featureName} : ${locationProvider.selectedAddress.addressLine}");
-                         }
                          updateUser(id: user.uid, number: user.phoneNumber);
-                         Navigator.pushReplacementNamed(context, HomeScreen.id);
+                         Navigator.pushReplacementNamed(context, MainScreen.id);
                        }
                      }else{
                        _createUser(id: user.uid, number: user.phoneNumber);
@@ -134,7 +134,7 @@ class AuthProviders extends ChangeNotifier{
                    print(e.toString());
                  }
                  // Utils.flushBarErrorMessage("Invalid OTP", context);
-                 // error = "Invalid OTP".toUpperCase();
+                 error = "Invalid OTP".toUpperCase();
                  Navigator.of(context).pop();
                }
               },
@@ -148,7 +148,7 @@ class AuthProviders extends ChangeNotifier{
           notifyListeners();
     });
   }
-  void _createUser({String? id, String? number}) async{
+  Future<void> _createUser({String? id, String? number}) async{
     _userServices.createUserData({
       "id": id,
       "number": number,
@@ -156,11 +156,14 @@ class AuthProviders extends ChangeNotifier{
       "longitude": longitude,
       "address": address,
       'location': location,
+      'firstName': 'First Name',
+      'lastName': 'Last Name',
+      'email': 'email'
     });
     loading = false;
     notifyListeners();
 }
- void updateUser({String? id, String? number,}) async{
+ void updateUser({String? id, String? number, context}) async{
     try{
       _userServices.updateUserData({
         "id": id,
@@ -169,6 +172,9 @@ class AuthProviders extends ChangeNotifier{
         "longitude": longitude,
         "address": address,
         'location': location,
+        'firstName': 'First Name',
+        'lastName': 'Last Name',
+        'email': 'email'
       });
       loading = false;
       notifyListeners();
@@ -180,5 +186,11 @@ class AuthProviders extends ChangeNotifier{
       Utils.flushBarErrorMessage('address can,t be update', context!);
     }
   }
-
+Future<DocumentSnapshot> getUserData() async{
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid).get();
+     documentSnapshot =snapshot;
+     notifyListeners();
+     return snapshot;
+}
 }

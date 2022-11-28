@@ -35,57 +35,57 @@ class ProductList extends StatelessWidget {
 
         return Column(
           children: [
-            Container(
-              height: 50,
-              color: Colors.grey,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 6, right: 2),
-                      child: Chip(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                          label: Text('Category'),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 6, right: 2),
-                      child: Chip(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        label: Text('Category'),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 6, right: 2),
-                      child: Chip(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        label: Text('Category'),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 6, right: 2),
-                      child: Chip(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        label: Text('Category'),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ),
+            // Container(
+            //   height: 50,
+            //   color: Colors.grey,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(left: 8, right: 8),
+            //     child: ListView(
+            //       padding: EdgeInsets.zero,
+            //       shrinkWrap: true,
+            //       physics: const BouncingScrollPhysics(),
+            //       scrollDirection: Axis.horizontal,
+            //       children: [
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 6, right: 2),
+            //           child: Chip(
+            //             shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(5),
+            //             ),
+            //               label: Text('Category'),
+            //           ),
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 6, right: 2),
+            //           child: Chip(
+            //             shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(5),
+            //             ),
+            //             label: Text('Category'),
+            //           ),
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 6, right: 2),
+            //           child: Chip(
+            //             shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(5),
+            //             ),
+            //             label: Text('Category'),
+            //           ),
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 6, right: 2),
+            //           child: Chip(
+            //             shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(5),
+            //             ),
+            //             label: Text('Category'),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   )
+            // ),
             Material(
               elevation: 4,
               borderRadius: BorderRadius.circular(4),

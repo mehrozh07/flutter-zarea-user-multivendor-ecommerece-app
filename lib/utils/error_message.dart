@@ -13,7 +13,7 @@ class Utils{
         duration: const Duration(seconds: 3),
         borderRadius: BorderRadius.circular(8),
         flushbarPosition: FlushbarPosition.TOP,
-        backgroundColor: Theme.of(context).indicatorColor,
+        backgroundColor: Theme.of(context).errorColor,
         reverseAnimationCurve: Curves.easeInOut,
         positionOffset: 20,
         icon: const Icon(Icons.error , size: 28 , color: Colors.white,),

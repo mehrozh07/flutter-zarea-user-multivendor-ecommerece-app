@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zarea_user/auth_providers/location_provider.dart';
+import 'package:zarea_user/bottomBar/main_screen.dart';
 import 'package:zarea_user/screens/home_page.dart';
 import 'package:zarea_user/screens/map_screen.dart';
 import 'package:zarea_user/services/user_services.dart';
@@ -27,18 +28,16 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   void initState() {
-    UserServices _userService = UserServices();
-    _userService.getUserById(user!.uid).then((value){
-      if( value != null){
-        if(value.data()!['latitude'] != null){
-          getPrefs(value);
+    UserServices userService = UserServices();
+    userService.getUserById(user!.uid).then((value){
+      if(value['latitude'] != null){
+        getPrefs(value);
+      }else{
+        _locationProvider.getCurrentPosition(context);
+        if(_locationProvider.isPermissionAllowed == true){
+          Navigator.popAndPushNamed(context, MapScreen.id);
         }else{
-          _locationProvider.getCurrentPosition(context);
-          if(_locationProvider.isPermissionAllowed == true){
-            Navigator.popAndPushNamed(context, MapScreen.id);
-          }else{
-            Utils.flushBarErrorMessage('Permission Not Allowed'.toLowerCase(), context);
-          }
+          Utils.flushBarErrorMessage('Permission Not Allowed'.toLowerCase(), context);
         }
       }
     });
@@ -48,18 +47,18 @@ class _LandingPageState extends State<LandingPage> {
 SharedPreferences preference =await SharedPreferences.getInstance();
 String? location = preference.getString('location');
   if(location != null){
-    preference.setString('address', dbResult.data()['location']);
-    preference.setString('location', dbResult.data()['address']);
+    preference.setString('address', dbResult['location']);
+    preference.setString('location', dbResult['address']);
     if(mounted){
       setState(() {
-        _location = dbResult.data()['location'];
-        _address = dbResult.data()['address'];
+        _location = dbResult['location'];
+        _address = dbResult['address'];
         loading = false;
       });
     }
-    Navigator.pushNamed(context, HomeScreen.id);
+    Navigator.pushNamed(context, MainScreen.id);
    }
-  Navigator.pushNamed(context, HomeScreen.id);
+  Navigator.pushNamed(context, MainScreen.id);
   }
   @override
   Widget build(BuildContext context) {
@@ -96,7 +95,7 @@ String? location = preference.getString('location');
                    backgroundColor: Theme.of(context).primaryColor
                ),
                  onPressed: (){
-                 Navigator.pushReplacementNamed(context, HomeScreen.id);
+                 Navigator.pushReplacementNamed(context, MapScreen.id);
                  },
                  child:  Text('confirm your location',
                    style: GoogleFonts.lato(textStyle: const TextStyle(

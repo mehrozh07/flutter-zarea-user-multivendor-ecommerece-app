@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,20 +6,41 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zarea_user/auth_providers/auth_provider.dart';
+import 'package:zarea_user/auth_providers/coupen_provider.dart';
 import 'package:zarea_user/auth_providers/location_provider.dart';
 import 'package:zarea_user/auth_providers/store_provider.dart';
 import 'package:zarea_user/bottomBar/main_screen.dart';
+import 'package:zarea_user/screens/cart_screen.dart';
 import 'package:zarea_user/screens/home_page.dart';
 import 'package:zarea_user/screens/landing_page,dart.dart';
 import 'package:zarea_user/screens/login_screen.dart';
 import 'package:zarea_user/screens/map_screen.dart';
 import 'package:zarea_user/screens/product_detail.dart';
 import 'package:zarea_user/screens/product_list_screen.dart';
+import 'package:zarea_user/screens/profile_screen.dart';
 import 'package:zarea_user/screens/splash_screen.dart';
 import 'package:zarea_user/screens/vendor_screen.dart';
 import 'package:zarea_user/screens/welcome_screen.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+import 'auth_providers/cart_provider.dart';
+import 'auth_providers/order_provider.dart';
+
+Map<int, Color> color = {
+  50: const Color.fromRGBO(62, 180, 137, .1),
+  100: const Color.fromRGBO(62, 180, 137, .2),
+  200: const Color.fromRGBO(62, 180, 137, .3),
+  300: const Color.fromRGBO(62, 180, 137, .4),
+  400: const Color.fromRGBO(62, 180, 137, .5),
+  500: const Color.fromRGBO(62, 180, 137, .6),
+  600: const Color.fromRGBO(62, 180, 137, .7),
+  700: const Color.fromRGBO(62, 180, 137, .8),
+  800: const Color.fromRGBO(62, 180, 137, .9),
+  900: const Color.fromRGBO(62, 180, 137, 1),
+};
 Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent),);
@@ -32,6 +54,9 @@ Future<void> main() async {
             create: (_)=> LocationProvider(),
         ),
         ChangeNotifierProvider(create: (_)=> StoreProvider()),
+        ChangeNotifierProvider(create: (_)=> CartProvider()),
+        ChangeNotifierProvider(create: (_)=> CouponProvider()),
+        ChangeNotifierProvider(create: (_)=> OrderProvider())
       ],
       child: const MyApp(),
     ));
@@ -45,7 +70,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
+
+
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+  void initialization() async {
+    await Future.delayed(const Duration(seconds: 3));
+    FlutterNativeSplash.remove();
+  }
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -58,12 +93,13 @@ class _MyAppState extends State<MyApp> {
           title: 'Zarea',
           theme: ThemeData(
             useMaterial3: true,
-            primaryColor: const Color(0xFFFF2400),
+            primarySwatch: MaterialColor(0xFF3EB489, color),
+            primaryColor: const Color(0xFF3EB489),
             fontFamily: 'Lato',
           ),
-          initialRoute: SplashScreen.id,
+          initialRoute: FirebaseAuth.instance.currentUser != null ? MainScreen.id : WelcomeScreen.id,
           routes: {
-            SplashScreen.id: (context)=> const SplashScreen(),
+            // SplashScreen.id: (context)=> const SplashScreen(),
             HomeScreen.id :(context)=> const HomeScreen(),
             WelcomeScreen.id : (context)=> const WelcomeScreen(),
             MapScreen.id: (context)=> const MapScreen(),
@@ -73,6 +109,8 @@ class _MyAppState extends State<MyApp> {
             VendorScreen.id: (context)=> const VendorScreen(),
             ProductListScreen.id: (context)=> const ProductListScreen(),
             ProductDetail.id: (context)=> const ProductDetail(),
+            CartScreen.id: (context)=> const CartScreen(),
+            ProfileScreen.id: (context) => const ProfileScreen(),
           },
           builder: EasyLoading.init(),
         );

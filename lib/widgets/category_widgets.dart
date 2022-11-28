@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:zarea_user/auth_providers/store_provider.dart';
-import 'package:zarea_user/product_widgets/product_list.dart';
-import 'package:zarea_user/services/store_services.dart';
 
 import '../screens/product_list_screen.dart';
 import '../services/product_service.dart';
@@ -25,7 +23,7 @@ class _VendorCategoryState extends State<VendorCategory> {
   void didChangeDependencies() {
     final vendorCategory = Provider.of<StoreProvider>(context);
     FirebaseFirestore.instance
-        .collection('products').where("seller.sellerUid", isEqualTo: vendorCategory.documentSnapshot!['uid'])
+        .collection('products').where("seller.sellerUid", isEqualTo: vendorCategory.documentSnapshot?['uid'])
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {

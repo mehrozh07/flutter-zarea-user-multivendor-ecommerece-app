@@ -25,7 +25,7 @@ class LocationProvider extends ChangeNotifier {
  LocationPermission? get permission => _permission;
 
 final Utils utils = Utils();
- Future<void> getCurrentPosition(BuildContext  context) async{
+ Future<Position?> getCurrentPosition(BuildContext  context) async{
    try{
      _permission = await Geolocator.requestPermission();
      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -43,6 +43,7 @@ final Utils utils = Utils();
        }
        Utils.flushBarErrorMessage('Permission Not Allowed', context);
      }
+     return position;
    }catch(e){
      Utils.flushBarErrorMessage(e.toString(), context);
    }

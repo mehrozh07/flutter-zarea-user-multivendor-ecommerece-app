@@ -60,7 +60,7 @@ class _VendorScreenState extends State<VendorScreen> {
                             borderRadius: BorderRadius.circular(8),
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                                image: NetworkImage(storeProvider.documentSnapshot!['imageUrl']),
+                                image: NetworkImage("${storeProvider.documentSnapshot?['imageUrl']}"),
                             )
                           ),
                           child: Container(
@@ -69,7 +69,7 @@ class _VendorScreenState extends State<VendorScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: ListView(
                                 children: [
-                                  Text(storeProvider.documentSnapshot!['dialogue'],
+                                  Text('${storeProvider.documentSnapshot?['dialogue']}',
                                     style: GoogleFonts.poppins(
                                         textStyle: const TextStyle(
                                           fontSize: 16,
@@ -77,7 +77,7 @@ class _VendorScreenState extends State<VendorScreen> {
                                           fontWeight: FontWeight.bold,
                                         )
                                     ),                                  ),
-                                  Text(storeProvider.documentSnapshot!['address'],
+                                  Text('${storeProvider.documentSnapshot?['address']}',
                                     style: GoogleFonts.poppins(
                                         textStyle: const TextStyle(
                                           fontSize: 16,
@@ -86,7 +86,7 @@ class _VendorScreenState extends State<VendorScreen> {
                                         )
                                     ),
                                   ),
-                                  Text(storeProvider.documentSnapshot!['email'],
+                                  Text('${storeProvider.documentSnapshot?['email']}',
                                     style: GoogleFonts.poppins(
                                         textStyle: const TextStyle(
                                           fontSize: 16,
@@ -112,8 +112,7 @@ class _VendorScreenState extends State<VendorScreen> {
                                           backgroundColor: Colors.white,
                                         ),
                                           onPressed: () async{
-                                            await launch("tel:${storeProvider.documentSnapshot!['mobile']}");
-
+                                            await launch("tel:${storeProvider.documentSnapshot?['mobile']}");
                                           },
                                           icon: Icon(Icons.phone, color: Theme.of(context).primaryColor,),
                                       ),
@@ -138,7 +137,7 @@ class _VendorScreenState extends State<VendorScreen> {
                     ),
                   ),
                 ),
-                title:  Text('${storeProvider.documentSnapshot!['shopName']}',
+                title:  Text('${storeProvider.documentSnapshot?['shopName']}',
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(
                         fontSize: 16,

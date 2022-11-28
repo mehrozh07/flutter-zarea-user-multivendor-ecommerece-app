@@ -1,7 +1,6 @@
 name: zarea_user
 description: A new Flutter project.
 
-
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
@@ -25,7 +24,7 @@ dependencies:
   google_fonts: ^3.0.1
   dots_indicator: ^2.1.0
   shared_preferences: ^2.0.15
-  google_maps_flutter: ^2.1.12
+  google_maps_flutter: ^2.2.1
   loading_indicator: ^3.1.0
   location: ^4.4.0
   geolocator: ^9.0.1
@@ -40,6 +39,11 @@ dependencies:
   map_launcher: ^2.4.0
   expandable_text: ^2.3.0
   flutter_easyloading: ^3.0.5
+  firebase_core_platform_interface: 4.5.1
+  toggle_switch: ^2.0.1
+  flutter_native_splash: ^2.2.14
+  dotted_border: ^2.0.0+3
+  chips_choice: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +51,12 @@ dev_dependencies:
 
 
   flutter_lints: ^2.0.0
+
+
+flutter_native_splash:
+  color: "#3EB489"
+  image: assets/images/logo.png
+
 
 
 flutter:

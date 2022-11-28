@@ -41,7 +41,6 @@ class _MyAppBarState extends State<MyAppBar> {
   @override
   Widget build(BuildContext context) {
     final locationData = Provider.of<LocationProvider>(context);
-    final auth = Provider.of<AuthProviders>(context);
     return SliverAppBar(
       backgroundColor: Theme.of(context).primaryColor,
       automaticallyImplyLeading: false,

@@ -139,12 +139,4 @@ class ProductDetail extends StatelessWidget {
         ),
     );
   }
-  Future<void> saveForLater() {
-    CollectionReference favourite = FirebaseFirestore.instance.collection('favProducts');
-    User? user = FirebaseAuth.instance.currentUser;
-    return favourite.add({
-      'product': document?.data(),
-      'customerId': user?.uid,
-    });
-  }
 }

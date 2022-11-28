@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zarea_user/auth_providers/auth_provider.dart';
 import 'package:zarea_user/auth_providers/location_provider.dart';
+import 'package:zarea_user/screens/home_page.dart';
 
 class LoginScreen extends StatefulWidget {
   static const id = 'Login-Screen';
@@ -119,13 +120,11 @@ String phone = '';
                                 auth?.latitude = locationData.latitude;
                                 auth?.longitude = locationData.longitude;
                                 auth?.address = locationData.selectedAddress.addressLine;
-
                               });
                               String number = countryController.text+phone;
                               auth?.verifyPhone(
                                 context: context,
                                 number: number,
-
                               ).then((value) {
                                 countryController.clear();
                                 auth.loading = false;
@@ -140,7 +139,6 @@ String phone = '';
     );
   }
 }
-
 // import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:zarea_user/screens/product_detail.dart';
 
+import '../widgets/counter_widget/another_counter.dart';
+
 class ProductCard extends StatelessWidget {
   final DocumentSnapshot? snapshot;
   const ProductCard({Key? key, this.snapshot}) : super(key: key);
@@ -141,20 +143,8 @@ class ProductCard extends StatelessWidget {
                             height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Card(
-                                  color: Colors.pinkAccent,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 30, right: 30,bottom: 7,top: 7),
-                                    child: Text('Add',
-                                      style: GoogleFonts.poppins(
-                                          textStyle: TextStyle(
-                                              fontSize: textSize*16,
-                                              color: Colors.grey
-                                          )
-                                      ),),
-                                  ),
-                                )
+                              children:  [
+                                AnotherCounter(snapshot: snapshot,)
                               ],
                             ),
                           ),

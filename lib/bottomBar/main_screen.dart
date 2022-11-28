@@ -6,6 +6,8 @@ import 'package:zarea_user/screens/home_page.dart';
 import 'package:zarea_user/screens/my_order_screen.dart';
 import 'package:zarea_user/screens/profile_screen.dart';
 
+import '../screens/cart_notifications.dart';
+
 class MainScreen extends StatefulWidget {
   static const id = '/Main-Screen';
   const MainScreen({Key? key}) : super(key: key);
@@ -24,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
       return [
         const HomeScreen(),
         const FavoriteScreen(),
-        const MyOrderScreen(),
+         MyOrderScreen(),
          ProfileScreen(),
       ];
     }
@@ -58,6 +60,11 @@ class _MainScreenState extends State<MainScreen> {
     }
 
     return Scaffold(
+      floatingActionButton: const Padding(
+        padding: EdgeInsets.only(bottom: 56),
+        child: CartNotifications(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: PersistentTabView(
         context,
         navBarHeight: 56,

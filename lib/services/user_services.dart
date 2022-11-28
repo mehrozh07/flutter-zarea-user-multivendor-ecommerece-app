@@ -10,7 +10,7 @@ class UserServices{
     await  _firebaseFirestore.collection(collections).doc(id).set(values);
    }
 
-   Future<void> updateUserData(Map<String, dynamic> values)async {
+   Future<void> updateUserData(Map<String, dynamic> values) async {
      String? id = values['id'];
     await  _firebaseFirestore.collection(collections).doc(values[id]).update(values);
    }

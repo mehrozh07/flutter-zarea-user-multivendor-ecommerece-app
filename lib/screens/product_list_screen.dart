@@ -36,7 +36,6 @@ class ProductListScreen extends StatelessWidget {
           shrinkWrap: true,
           padding: EdgeInsets.zero,
             children: [
-
               ProductList()
             ],),
     ),
