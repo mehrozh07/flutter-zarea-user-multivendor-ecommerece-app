@@ -41,9 +41,7 @@ CartService cartService = CartService();
   bool exist = false;
   int quantity = 1;
   String? docId;
-
-  @override
-  Widget build(BuildContext context) {
+  getData(){
     FirebaseFirestore.instance
         .collection('cart').doc(user?.uid).collection('products')
         .where('productId', isEqualTo: widget.snapshot?['productId'])
@@ -59,6 +57,11 @@ CartService cartService = CartService();
         }
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    getData();
     return Expanded(
       flex: 3,
       child: loading ?

@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:zarea_user/auth_providers/auth_provider.dart';
 import 'package:zarea_user/auth_providers/location_provider.dart';
 import 'package:zarea_user/screens/map_screen.dart';
+import 'package:zarea_user/screens/my_order_screen.dart';
 import 'package:zarea_user/screens/welcome_screen.dart';
 import 'package:zarea_user/utils/error_message.dart';
 
@@ -12,7 +14,6 @@ import '../widgets/edit_profile.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const id = "profile-screen";
-
   const ProfileScreen({super.key});
   @override
   MapScreenState createState() => MapScreenState();
@@ -20,12 +21,10 @@ class ProfileScreen extends StatefulWidget {
 
 class MapScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
-  bool _status = true;
   final FocusNode myFocusNode = FocusNode();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -45,7 +44,8 @@ class MapScreenState extends State<ProfileScreen>
                 color: Colors.white,
               )),
         ),
-        body:  Container(
+        body: auth.documentSnapshot?.data() != null ?
+        Container(
           color: Colors.white,
           child:  ListView(
             children:[
@@ -64,9 +64,9 @@ class MapScreenState extends State<ProfileScreen>
                           CircleAvatar(
                             radius: 50,
                             backgroundColor: Theme.of(context).primaryColor,
-                            child:  const Text("N",
+                            child: Text('${auth.documentSnapshot?['firstName'].substring(0, 1)}',
                               style: TextStyle(
-                              fontSize: 50,
+                              fontSize: MediaQuery.textScaleFactorOf(context)*50,
                                 color: Colors.white,
                             ),),
                           ),
@@ -77,7 +77,8 @@ class MapScreenState extends State<ProfileScreen>
                               Row(
                                 children: [
                                     Text(
-                                    '${auth.documentSnapshot?['firstName']} ${auth.documentSnapshot?['lastName']}',
+                                    '${auth.documentSnapshot?['firstName']}'
+                                        ' ${auth.documentSnapshot?['lastName']}',
                                   style:const TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,
@@ -121,14 +122,15 @@ class MapScreenState extends State<ProfileScreen>
                                children: [
                                  Text('${auth.documentSnapshot?['location']}',
                                  maxLines: 2,
-                                 style: const TextStyle(
+                                 style: TextStyle(
                                    overflow: TextOverflow.ellipsis,
-                                   fontSize: 13,
+                                   fontSize: MediaQuery.textScaleFactorOf(context)*13,
                                  ),),
-                                 Text('${auth.documentSnapshot?['address']}',maxLines: 2,
-                                   style: const TextStyle(
+                                 Text('${auth.documentSnapshot?['address']}',
+                                   maxLines: 3,
+                                   style: TextStyle(
                                      overflow: TextOverflow.ellipsis,
-                                     fontSize: 12,
+                                     fontSize: MediaQuery.textScaleFactorOf(context)*9,
                                    ),)
                                ],
                              ),
@@ -142,7 +144,13 @@ class MapScreenState extends State<ProfileScreen>
                                  onPressed: (){
                                    locationData.getCurrentPosition(context).then((value){
                                      if(value != null){
-                                       Navigator.push(context, MaterialPageRoute(builder: (_)=> const MapScreen()));
+                                       PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                                         context,
+                                         settings: const RouteSettings(name: MapScreen.id),
+                                         screen: const MapScreen(),
+                                         withNavBar: false,
+                                         pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                       );
                                      }else{
                                        Utils.flushBarErrorMessage('permission not allows', context);
                                      }
@@ -156,29 +164,48 @@ class MapScreenState extends State<ProfileScreen>
                   ),
                 ),
               ),
-              const ListTile(
-                title: Text('Orders'),
-                leading: Icon(Icons.shopping_bag_outlined),
+               ListTile(
+                onTap: (){
+                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                    context,
+                    settings: const RouteSettings(name: MyOrderScreen.id),
+                    screen:  MyOrderScreen(),
+                    withNavBar: false,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                },
+                title: const Text('Orders'),
+                leading: const Icon(Icons.shopping_bag_outlined),
               ),
-              const ListTile(
-                title: Text('My Rating And Reviews'),
-                leading: Icon(Icons.comment),
-              ),
-              const ListTile(
-                title: Text('Notifications'),
-                leading: Icon(Icons.notification_important),
-              ),
+              // const ListTile(
+              //   title: Text('My Rating And Reviews'),
+              //   leading: Icon(Icons.comment),
+              // ),
+              // const ListTile(
+              //   title: Text('Notifications'),
+              //   leading: Icon(Icons.notification_important),
+              // ),
                ListTile(
                 onTap: (){
                   FirebaseAuth.instance.signOut().then((value){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> const WelcomeScreen()));
+                    PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                      context,
+                      settings: const RouteSettings(name: WelcomeScreen.id),
+                      screen:  const WelcomeScreen(),
+                      withNavBar: false,
+                      pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                    );
                   });
                 },
-                title: Text('Logout'),
-                leading: Icon(Icons.logout),
+                title: const Text('Logout'),
+                leading: const Icon(Icons.logout),
               ),
             ],
           ),
-        ));
+        )
+            : const Center(
+          child: CircularProgressIndicator(),
+        )
+    );
   }
 }

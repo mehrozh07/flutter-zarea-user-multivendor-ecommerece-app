@@ -68,7 +68,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                       initialPage: 0,
                       autoPlay: true,
                       height: 150.h,
-                      onPageChanged: (int i, carouselPageChangedReseason){
+                      onPageChanged: (int i, carouselPageChangedReason){
                         setState((){
                           _index = i;
                         });

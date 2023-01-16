@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable_text/expandable_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zarea_user/widgets/cart_buttons/bottom_sheet.dart';
 
@@ -31,7 +29,6 @@ class ProductDetail extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor.withOpacity(.3),
                       border: Border.all(color: Theme.of(context).primaryColor),
-
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(

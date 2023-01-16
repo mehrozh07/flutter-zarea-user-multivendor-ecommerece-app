@@ -5,20 +5,20 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zarea_user/services/cart_service.dart';
 
-class AnotherCounter extends StatefulWidget {
+class CounterForCard extends StatefulWidget {
   final DocumentSnapshot? snapshot;
-  const AnotherCounter({Key? key, this.snapshot}) : super(key: key);
+  const CounterForCard({Key? key, this.snapshot}) : super(key: key);
 
   @override
-  State<AnotherCounter> createState() => _AnotherCounterState();
+  State<CounterForCard> createState() => _CounterForCardState();
 }
 
-class _AnotherCounterState extends State<AnotherCounter> {
+class _CounterForCardState extends State<CounterForCard> {
   User? user = FirebaseAuth.instance.currentUser;
   int quantity = 1;
   bool exist = false;
   bool updating = false;
-  CartService service = CartService();
+  CartService cartService = CartService();
   String? docId;
 
    void getCart() async {
@@ -26,7 +26,7 @@ class _AnotherCounterState extends State<AnotherCounter> {
         .collection('cart')
         .doc(user?.uid)
         .collection('products')
-        .where('productId', isEqualTo: widget.snapshot!['productId'])
+        .where('productId', isEqualTo: widget.snapshot?['productId'])
         .get()
         .then((QuerySnapshot querySnapshot) {
       if(querySnapshot.docs.isNotEmpty){
@@ -40,9 +40,7 @@ class _AnotherCounterState extends State<AnotherCounter> {
           }
         }
       }else{
-       setState(() {
-         exist = false;
-       });
+        exist = false;
       }
     });
   }
@@ -77,18 +75,18 @@ class _AnotherCounterState extends State<AnotherCounter> {
                     });
 
                     if (quantity == 1) {
-                      service.deleteCart().then((value) {
+                      cartService.deleteCart().then((value) {
                         updating = false;
                         exist = false;
                       });
-                      service.checkCart(docId);
+                      cartService.checkCart(docId);
                     }
                     if (quantity > 1) {
                       setState(() {
                         quantity--;
                       });
                       var total = quantity* widget.snapshot!['price'];
-                      service
+                      cartService
                           .updateCart(docId, quantity, total)
                           .then((value) {
                         updating = false;
@@ -96,7 +94,7 @@ class _AnotherCounterState extends State<AnotherCounter> {
                     }
                   },
                   child: quantity == 1
-                      ? const Icon(Icons.delete)
+                      ? const Icon(Icons.delete, color: Colors.pink)
                       : const Icon(
                     Icons.remove,
                     color: Colors.pink,
@@ -129,7 +127,7 @@ class _AnotherCounterState extends State<AnotherCounter> {
                     quantity++;
                   });
                   var total = quantity* widget.snapshot!['price'];
-                  service.updateCart(docId, quantity, total).then((value) {
+                  cartService.updateCart(docId, quantity, total).then((value) {
                     updating = false;
                   });
                 },
@@ -142,28 +140,32 @@ class _AnotherCounterState extends State<AnotherCounter> {
       ),
     )
         : InkWell(
-      onTap: () {
+      onTap: () async{
         EasyLoading.show(status: "Adding");
-        service.checkSeller().then((value){
-          if(value == widget.snapshot?['seller']['sellerUid']){
-            setState(() {
-              exist = true;
-            });
-            service.addToCart(docId).then((value) {
-              EasyLoading.showSuccess("successfully");
-            });
-          }else{
-            EasyLoading.dismiss();
-          }
-          if(value==null){
-            setState(() {
-              exist = true;
-            });
-            service.addToCart(docId).then((value) {
-              EasyLoading.showSuccess("successfully");
-            });
-          }
+        await cartService.addToCart(widget.snapshot).then((value){
+          exist = true;
+          EasyLoading.showSuccess("successfully");
         });
+        // cartService.checkSeller().then((value){
+        //   if(value == widget.snapshot?['seller']['sellerUid']){
+        //     setState(() {
+        //       exist = true;
+        //     });
+        //     cartService.addToCart(widget.snapshot).then((value) {
+        //       EasyLoading.showSuccess("added");
+        //     });
+        //   }else{
+        //     EasyLoading.dismiss();
+        //   }
+        //   if(value!.isEmpty){
+        //     setState(() {
+        //       exist = true;
+        //     });
+        //     cartService.addToCart(widget.snapshot).then((value) {
+        //       EasyLoading.showSuccess("successfully");
+        //     });
+        //   }
+        // });
       },
       child: Container(
         decoration: BoxDecoration(

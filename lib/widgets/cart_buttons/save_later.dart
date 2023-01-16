@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zarea_user/services/product_service.dart';
 
 class SaveLater extends StatefulWidget {
   final DocumentSnapshot? snapshot;
@@ -13,6 +14,32 @@ class SaveLater extends StatefulWidget {
 }
 
 class _SaveLaterState extends State<SaveLater> {
+  ProductService productService = ProductService();
+  List favorites = [];
+  bool isLiked = false;
+
+getFavProducts(){
+  productService.featured.doc(widget.snapshot?.id).get().then((document){
+    setState(() {
+      favorites = document['favorites'];
+    });
+    if(favorites.contains(FirebaseAuth.instance.currentUser?.uid)){
+      setState(() {
+        isLiked = true;
+      });
+    }else{
+      setState(() {
+        isLiked = false;
+      });
+    }
+  });
+}
+
+@override
+  void initState() {
+    getFavProducts();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -26,41 +53,27 @@ class _SaveLaterState extends State<SaveLater> {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               shape: const RoundedRectangleBorder(
                   side: BorderSide.none),
-              backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Colors.transparent,
             ),
-            onPressed: () async{
-              EasyLoading.show(status: 'Saving');
-              await saveForLater().then((value){
-                EasyLoading.showSuccess('Saved');
+            onPressed:() async{
+              setState(() {
+                isLiked = !isLiked;
               });
+              productService.updateFavourite(isLiked, widget.snapshot?.id, context);
             },
-            child: Row(
-              children: [
-                const Icon(Icons.favorite, color: Colors.white,),
-                const SizedBox(width: 3,),
-                Text(
-                  'Add to Fav',
-                  style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            child: isLiked ? const Icon(Icons.favorite, color: Colors.red) :
+            const Icon(Icons.favorite_border, color: Colors.white),
           ),
         ),
       ),
     );
   }
-  Future<void> saveForLater() {
-    CollectionReference favourite = FirebaseFirestore.instance.collection('favProducts');
-    User? user = FirebaseAuth.instance.currentUser;
-    return favourite.add({
-      'product': widget.snapshot?.data(),
-      'customerId': user?.uid,
-    });
-  }
+  // Future<void> saveForLater() {
+  //   CollectionReference favourite = FirebaseFirestore.instance.collection('favProducts');
+  //   User? user = FirebaseAuth.instance.currentUser;
+  //   return favourite.add({
+  //     'product': widget.snapshot?.data(),
+  //     'customerId': user?.uid,
+  //   });
+  // }
 }

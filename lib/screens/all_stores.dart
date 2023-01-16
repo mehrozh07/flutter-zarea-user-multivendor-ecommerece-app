@@ -13,7 +13,7 @@ import 'package:zarea_user/services/store_services.dart';
 
 class NearestStore extends StatefulWidget {
   static const id = 'nearest-store-screen';
-  const NearestStore({key}) : super(key: key);
+  const NearestStore({Key? key}) : super(key: key);
 
   @override
   _NearestStoreState createState() => _NearestStoreState();
@@ -52,9 +52,6 @@ class _NearestStoreState extends State<NearestStore> {
 
   @override
   Widget build(BuildContext context) {
-    final storeData = Provider.of<StoreProvider>(context);
-
-
     String getDistance(location) {
       var distance = Geolocator.distanceBetween(
         latitude,
@@ -146,6 +143,7 @@ class _NearestStoreState extends State<NearestStore> {
                     final document = documentSnapShot[index].data() as Map?;
                     return GestureDetector(
                       onTap: (){
+                        debugPrint(document['uid']);
                         PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                           context,
                           settings: const RouteSettings(name: VendorScreen.id),
@@ -272,6 +270,7 @@ class _NearestStoreState extends State<NearestStore> {
                             ),
                           ),
                           Image.asset('assets/images/city.png',
+                            color: Colors.grey,
                             width: double.infinity,),
                           Positioned(
                             right: 10.0,
@@ -292,7 +291,7 @@ class _NearestStoreState extends State<NearestStore> {
                                         ),
                                       )
                                   ),
-                                  Text('Mehrooz Hassan',
+                                  Text('Muneeb Danish',
                                       style: GoogleFonts.poppins(
                                         textStyle: const TextStyle(
                                           fontWeight: FontWeight.bold,

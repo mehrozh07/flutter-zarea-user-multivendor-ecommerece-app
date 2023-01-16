@@ -66,7 +66,6 @@ class FeaturedCollection extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                // Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
                 return ProductCard(snapshot: document);
               }).toList(),
             ),

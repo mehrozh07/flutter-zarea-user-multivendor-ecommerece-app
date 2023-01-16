@@ -20,7 +20,15 @@ class Utils{
       )..show(context),
 
     );
-
   }
 
+  static void showMessage(message, context){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          content: Text(message),
+        backgroundColor: Theme.of(context).errorColor,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
 }

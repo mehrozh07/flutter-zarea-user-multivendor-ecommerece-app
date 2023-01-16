@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,10 +58,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         builder: (context) => StatefulBuilder(
             builder: (BuildContext context, StateSetter myState) {
           return Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
-              Colors.green,
-              Colors.greenAccent,
+              Theme.of(context).primaryColor,
+                  Theme.of(context).primaryColor.withOpacity(0.3),
             ])),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -82,8 +83,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         child: Text(
                           "Sign Up",
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.aguafinaScript(
-                              color: Colors.white, fontSize: 20.sp),
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.sp),
+                            ),
                         ),
                       ),
                     ],
@@ -93,7 +97,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                   Visibility(
                     visible: auth.error == "INVALID OTP" ? true : false,
-                    child: Text("${auth.error}-TRY AGAIN", style: const TextStyle(color: Colors.red),),
+                    child: Text("${auth.error}-TRY AGAIN",
+                      style: const TextStyle(color: Colors.red),),
                   ),
                   SizedBox(
                     height: 30.h,
@@ -101,10 +106,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   Padding(
                     padding: EdgeInsets.only(right: 20.w, left: 20.w),
                     child: TextFormField(
+                      style: const TextStyle(color: Colors.white, fontSize: 18),
                       controller: phoneNumberC,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
-                        prefixText: 'Pakistan +92',
+                        border: const OutlineInputBorder(),
+                        prefixText: '+92 ',
                         prefixStyle:
                             TextStyle(color: Colors.white, fontSize: 20.sp),
                         label: Text(
@@ -220,7 +227,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       });
                       await locationData.getCurrentPosition(context);
                       if (locationData.isPermissionAllowed == true) {
-                        Navigator.pushReplacementNamed(context, MapScreen.id);
+                        Navigator.push(context, CupertinoPageRoute(builder: (_)=> const MapScreen()));
                         setState((){
                           locationData.loading = false;
                         });
@@ -246,8 +253,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 Wrap(
                   children: [
                     Text(
-                      "already a customer?",
-                      style: GoogleFonts.asar(),
+                      "already a customer? ",
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          fontSize: MediaQuery.textScaleFactorOf(context)*16,
+                        )
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -259,7 +270,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       },
                       child: Text(
                         "Login",
-                        style: GoogleFonts.asar(color: Colors.purpleAccent),
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: MediaQuery.textScaleFactorOf(context)*16,
+                          )
+                        ),
                       ),
                     ),
                   ],

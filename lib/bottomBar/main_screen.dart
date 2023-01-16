@@ -25,9 +25,9 @@ class _MainScreenState extends State<MainScreen> {
     List<Widget> _buildScreens() {
       return [
         const HomeScreen(),
-        const FavoriteScreen(),
+         FavoriteScreen(),
          MyOrderScreen(),
-         ProfileScreen(),
+         const ProfileScreen(),
       ];
     }
     List<PersistentBottomNavBarItem> _navBarsItems() {

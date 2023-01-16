@@ -18,7 +18,6 @@ import 'package:zarea_user/screens/map_screen.dart';
 import 'package:zarea_user/screens/product_detail.dart';
 import 'package:zarea_user/screens/product_list_screen.dart';
 import 'package:zarea_user/screens/profile_screen.dart';
-import 'package:zarea_user/screens/splash_screen.dart';
 import 'package:zarea_user/screens/vendor_screen.dart';
 import 'package:zarea_user/screens/welcome_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -27,7 +26,7 @@ import 'auth_providers/cart_provider.dart';
 import 'auth_providers/order_provider.dart';
 
 Map<int, Color> color = {
-  50: const Color.fromRGBO(62, 180, 137, .1),
+  50:  const Color.fromRGBO(62, 180, 137, .1),
   100: const Color.fromRGBO(62, 180, 137, .2),
   200: const Color.fromRGBO(62, 180, 137, .3),
   300: const Color.fromRGBO(62, 180, 137, .4),
@@ -43,20 +42,16 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent),);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   runApp(
     MultiProvider(
       providers: [
-         ChangeNotifierProvider(
-           create: (_)=> AuthProviders(),
-         ),
-        ChangeNotifierProvider(
-            create: (_)=> LocationProvider(),
-        ),
+        ChangeNotifierProvider(create: (_)=> AuthProviders()),
+        ChangeNotifierProvider(create: (_)=> LocationProvider()),
         ChangeNotifierProvider(create: (_)=> StoreProvider()),
         ChangeNotifierProvider(create: (_)=> CartProvider()),
         ChangeNotifierProvider(create: (_)=> CouponProvider()),
-        ChangeNotifierProvider(create: (_)=> OrderProvider())
+        ChangeNotifierProvider(create: (_)=> OrderProvider()),
       ],
       child: const MyApp(),
     ));
@@ -78,7 +73,7 @@ class _MyAppState extends State<MyApp> {
     initialization();
   }
   void initialization() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     FlutterNativeSplash.remove();
   }
   @override
@@ -96,6 +91,7 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: MaterialColor(0xFF3EB489, color),
             primaryColor: const Color(0xFF3EB489),
             fontFamily: 'Lato',
+            // iconTheme: const IconThemeData(color: Colors.white),
           ),
           initialRoute: FirebaseAuth.instance.currentUser != null ? MainScreen.id : WelcomeScreen.id,
           routes: {
@@ -119,4 +115,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

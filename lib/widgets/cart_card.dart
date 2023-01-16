@@ -60,7 +60,7 @@ class CartCard extends StatelessWidget {
               right: 0,
             bottom: 0,
                 child:
-            AnotherCounter(snapshot: snapshot,),
+            CounterForCard(snapshot: snapshot,),
             ),
              if(saving>0)
              Positioned(

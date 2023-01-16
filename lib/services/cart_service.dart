@@ -6,7 +6,7 @@ class CartService{
   User? user = FirebaseAuth.instance.currentUser;
 
   Future<void> addToCart(document) {
-   cart.doc(user!.uid).set({
+   cart.doc(user?.uid).set({
      'users': user?.uid,
      'sellerUid': document['seller']['sellerUid'],
      'shopName': document['seller']['shopName'],
@@ -56,7 +56,7 @@ class CartService{
   }
 
   Future<String?> checkSeller() async {
-    final snapshot =  await cart.doc(user!.uid).get();
+    final snapshot =  await cart.doc(user?.uid).get();
     return snapshot.exists ? snapshot['shopName']: null;
   }
 

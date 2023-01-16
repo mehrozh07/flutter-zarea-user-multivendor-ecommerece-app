@@ -14,19 +14,24 @@ class CounterWidget extends StatefulWidget {
 }
 
 class _CounterWidgetState extends State<CounterWidget> {
-  int _quantity =1;
+  int _quantity = 1;
   bool updating = false;
   bool exist = true;
 
   CartService service = CartService();
+  @override
+  void initState() {
+    _quantity = widget.quantity!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    @override
-    void setState(VoidCallback fn) {
-      _quantity = widget.quantity!;
-      super.setState(fn);
-    }
+    // @override
+    // void setState(VoidCallback fn) {
+    //
+    //   super.setState(fn);
+    // }
     return exist ? Padding(
       padding: const EdgeInsets.all(8.0),
       child: FittedBox(
@@ -61,7 +66,8 @@ class _CounterWidgetState extends State<CounterWidget> {
                 ),
                 child:  Padding(
                   padding: const EdgeInsets.all(5.0),
-                  child: _quantity ==1? const Icon(Icons.delete): const Icon(Icons.remove),
+                  child: _quantity ==1? Icon(Icons.delete, color: Theme.of(context).primaryColor,):
+                   Icon(Icons.remove,color: Theme.of(context).primaryColor,),
                 ),
               ),
             ),
@@ -92,9 +98,9 @@ class _CounterWidgetState extends State<CounterWidget> {
                   color: Colors.white,
                   border: Border.all(color: Colors.red),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Icon(Icons.add),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Icon(Icons.add,color: Theme.of(context).primaryColor,),
                 ),
               ),
             ),

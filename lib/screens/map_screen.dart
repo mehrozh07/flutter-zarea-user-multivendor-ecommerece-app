@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,7 +9,6 @@ import 'package:zarea_user/auth_providers/location_provider.dart';
 import 'package:zarea_user/utils/error_message.dart';
 import '../auth_providers/auth_provider.dart';
 import '../bottomBar/main_screen.dart';
-import 'home_page.dart';
 import 'login_screen.dart';
 
 class MapScreen extends StatefulWidget {
@@ -22,7 +21,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng currentLocation =  LatLng(37.42796133580664, -122.085749655962);
-  GoogleMapController? _googleMapController;
+  GoogleMapController? googleMapController;
   bool _locating = false;
   bool loggedIn = false;
   User? user;
@@ -54,20 +53,21 @@ class _MapScreenState extends State<MapScreen> {
     );
     void onCreated(GoogleMapController googleController) {
       setState(() {
-        _googleMapController = googleController;
+        googleMapController = googleController;
       });
     }
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-        title: const Text('Set Location'),
-      ),
       bottomSheet: Container(
-          height: 200.h,
+          height: MediaQuery.of(context).size.height*0.27,
           width: MediaQuery.of(context).size.width,
-          color: Colors.white,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15)),
+          ),
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -80,9 +80,7 @@ class _MapScreenState extends State<MapScreen> {
               )
                   : Container(),
               TextButton.icon(
-                  onPressed: () {
-
-                  },
+                  onPressed: null,
                   icon:  Icon(Icons.location_searching_outlined, color: Theme.of(context).primaryColor,),
                   label: Text("${locationData?.selectedAddress.featureName}",style: TextStyle(
                     color: Theme.of(context).primaryColor,
@@ -110,8 +108,7 @@ class _MapScreenState extends State<MapScreen> {
                         onPressed: () {
                           locationData?.savePrefs();
                           if (loggedIn == false) {
-                            Navigator.pushNamed(
-                                context, LoginScreen.id);
+                            Navigator.push(context, CupertinoPageRoute(builder: (_)=> const LoginScreen()));
                           } else {
                             setState(() {
                               auth.latitude = locationData?.latitude;
@@ -124,7 +121,7 @@ class _MapScreenState extends State<MapScreen> {
                               number: user?.phoneNumber,
                             );
                             Navigator.push(context, MaterialPageRoute(builder: (_)=> const MainScreen()));
-                            Utils.flushBarErrorMessage("Successfully Location Updated".toLowerCase(), context);
+                            Utils.flushBarErrorMessage("Location Updated".toLowerCase(), context);
                           }
                         },
                         child: Text(

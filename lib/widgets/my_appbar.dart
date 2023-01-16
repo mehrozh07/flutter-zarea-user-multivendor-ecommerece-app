@@ -1,12 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zarea_user/screens/welcome_screen.dart';
 import 'package:zarea_user/utils/error_message.dart';
-import '../auth_providers/auth_provider.dart';
 import '../auth_providers/location_provider.dart';
 import '../screens/map_screen.dart';
 
@@ -52,7 +50,13 @@ class _MyAppBarState extends State<MyAppBar> {
          await locationData.getCurrentPosition(context);
          if(mounted){
            if(locationData.isPermissionAllowed == true){
-             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> const MapScreen()));
+             PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+               context,
+               settings: const RouteSettings(name: MapScreen.id),
+               screen: const MapScreen(),
+               withNavBar: false,
+               pageTransitionAnimation: PageTransitionAnimation.cupertino,
+             );
            }else{
              Utils.flushBarErrorMessage("you can't fix location \n try again".toLowerCase(), context);
            }
@@ -86,28 +90,6 @@ class _MyAppBarState extends State<MyAppBar> {
         ),
 
       ),
-      actions:  [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            children: [
-              IconButton( icon: const Icon(Icons.power_settings_new, color: Colors.white,),
-                onPressed: () {
-                FirebaseAuth.instance.signOut().then((value){
-                  Navigator.pushReplacementNamed(context, WelcomeScreen.id);
-                });
-                },
-              ),
-              IconButton( icon: const Icon(Icons.account_circle_outlined, color: Colors.white,),
-                onPressed: () {
-
-                },
-              ),
-
-            ],
-          ),
-        ),
-      ],
       bottom: PreferredSize(
           preferredSize: Size.fromHeight(56.sp),
           child: Padding(

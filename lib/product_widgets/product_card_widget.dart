@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:zarea_user/screens/product_detail.dart';
-
 import '../widgets/counter_widget/another_counter.dart';
 
 class ProductCard extends StatelessWidget {
@@ -19,7 +18,7 @@ class ProductCard extends StatelessWidget {
     String offer = ((snapshot!['comapredPrice'] - snapshot!['price'])/snapshot!['comapredPrice']*100)
         .toStringAsFixed(0);
     return Container(
-      height: 185,
+      height: height*0.25,
       width: double.infinity,
       decoration: BoxDecoration(
         border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade300)),
@@ -144,7 +143,7 @@ class ProductCard extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children:  [
-                                AnotherCounter(snapshot: snapshot,)
+                                CounterForCard(snapshot: snapshot,)
                               ],
                             ),
                           ),

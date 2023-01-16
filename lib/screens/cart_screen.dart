@@ -17,9 +17,7 @@ import 'package:zarea_user/services/store_services.dart';
 import 'package:zarea_user/services/user_services.dart';
 import 'package:zarea_user/utils/error_message.dart';
 import 'package:zarea_user/widgets/coupon_widget.dart';
-
 import '../auth_providers/location_provider.dart';
-import '../widgets/cart_buttons/toggle_widget.dart';
 
 class CartScreen extends StatefulWidget {
   static const id = 'Cart-Screen';
@@ -66,6 +64,7 @@ class _CartScreenState extends State<CartScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    var text = MediaQuery.textScaleFactorOf(context);
     CartProvider cartProvider = Provider.of(context);
     LocationProvider locationProvider = Provider.of(context);
     var couponProvider = Provider.of<CouponProvider>(context);
@@ -141,7 +140,14 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ],
                     ),
-                    Text('$location $address', maxLines: 3,overflow: TextOverflow.ellipsis,),
+                    Container(
+                      child: Text('$location $address',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: text*12,
+                      ),),
+                    ),
                   ],
                 ),
               ),
@@ -175,7 +181,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                         onPressed: (){
                         userServices.getUserById(user!.uid).then((value){
-                          if(value.id== null){
+                          if(value.id.isEmpty){
                             PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                               context,
                               settings: const RouteSettings(name: ProfileScreen.id),
@@ -215,7 +221,6 @@ class _CartScreenState extends State<CartScreen> {
             physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
             children: [
-              const ToggleWidget(),
               const Divider(color: Colors.blueGrey,),
               // if(snapshot!=null)
               CartList(documentSnapshot: snapshot,),

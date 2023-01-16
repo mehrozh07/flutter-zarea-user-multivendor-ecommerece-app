@@ -15,7 +15,7 @@ class UserServices{
     await  _firebaseFirestore.collection(collections).doc(values[id]).update(values);
    }
 
-   Future<DocumentSnapshot<Map<String, dynamic>>> getUserById(String id) async{
+   Future<DocumentSnapshot<Map<String, dynamic>>> getUserById(id) async{
      var result = await _firebaseFirestore.collection(collections).doc(id).get();
             return result;
    }

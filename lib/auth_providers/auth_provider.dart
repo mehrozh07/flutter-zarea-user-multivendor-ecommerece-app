@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zarea_user/auth_providers/location_provider.dart';
@@ -10,6 +11,7 @@ import '../screens/landing_page,dart.dart';
 
 
 class AuthProviders extends ChangeNotifier{
+
   FirebaseAuth auth = FirebaseAuth.instance;
    String? smsOTP;
   String? verifications;
@@ -44,7 +46,7 @@ class AuthProviders extends ChangeNotifier{
     codeSent(String? verId, int? resendToken) async{
       verificationId = verId!;
       //open dialogue to enter recieved OTP SMS
-      smsOtpDialogue(context! , number!, );
+      smsOtpDialogue(context!, number!);
     }
 
     try{
@@ -55,7 +57,8 @@ class AuthProviders extends ChangeNotifier{
           codeSent: codeSent,
           codeAutoRetrievalTimeout: (String verid){
             verificationId = verid;
-          }
+          },
+          timeout: const Duration(seconds: 5),
       );
 
     }catch(e){
@@ -69,79 +72,96 @@ class AuthProviders extends ChangeNotifier{
   Future<Future> smsOtpDialogue(BuildContext context, String number, ) async{
     return showDialog(context: context,
         builder: (BuildContext context){
-      return AlertDialog(
-        title: const Text('Enter SMS Code'),
-        content: SizedBox(
-          height: 80,
-          child: Column(
-              children: [
-                TextField(
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.number,
-                  maxLength: 6,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Enter valid otp",
+      return Dialog(
+        child: Container(
+          height: MediaQuery.of(context).size.height*0.3,
+          padding: const EdgeInsets.all(20),
+          child: SizedBox(
+            height: 80,
+            child: Column(
+                children: [
+                  TextFormField(
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    maxLength: 6,
+                    validator: (v){
+                      if(v=='' && v!.isEmpty){
+                        return "OTP required";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.blueGrey.shade100,
+                      hintText: "Enter valid otp",
+                      labelText: "6-digit OTP"
+                    ),
+                    onChanged: (value) {
+                      smsOTP = value;
+                    },
                   ),
-                  onChanged: (value) {
-                    smsOTP = value;
-                  },
-                ),
-              ]),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          ),
+                          onPressed: () async{
+                            try{
+                              PhoneAuthCredential poneAuthCredential = PhoneAuthProvider.credential(
+                                verificationId: verificationId!,
+                                smsCode: smsOTP!,
+                              );
+                              final User? user = (await auth.signInWithCredential(poneAuthCredential)).user;
+                              if(user!=null){
+                                loading = false;
+                                notifyListeners();
+                                _userServices.getUserById(user.uid).then((snapShot) {
+                                  if(snapShot.exists){
+                                    if(screen=='Login'){
+                                      Navigator.pushReplacement(context,
+                                          CupertinoPageRoute(builder: (_)=> const LandingPage()));
+                                    }else{
+                                      updateUser(id: user.uid, number: user.phoneNumber);
+                                      Navigator.pushReplacement(context,
+                                          CupertinoPageRoute(builder: (_)=> const MainScreen()));
+                                    }
+                                  }else{
+                                    _createUser(id: user.uid, number: user.phoneNumber);
+                                    Navigator.pushReplacement(context,
+                                        CupertinoPageRoute(builder: (_)=> const LandingPage()));
+                                  }
+                                });
+                              }else{
+                                // ignore: use_build_context_synchronously
+                                Utils.flushBarErrorMessage("Login Failed", context);
+                                if (kDebugMode) {
+                                  print('Login Failed');
+                                }
+                              }
+                            }catch(e){
+                              if (kDebugMode) {
+                                print(e.toString());
+                              }
+                              error = "invalid otp";
+                              Navigator.of(context).pop();
+                              Utils.flushBarErrorMessage(e.toString(), context);
+                            }
+                          },
+                          child: const Text('Verify'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ]),
+          ),
         ),
-        contentPadding: const EdgeInsets.all(10),
-        actions: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: TextButton(
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.green,
-              ),
-              onPressed: () async {
-               try{
-                 PhoneAuthCredential poneAuthCredential = PhoneAuthProvider.credential(
-                     verificationId: verificationId!,
-                     smsCode: smsOTP!,
-                 );
-                 final User? user = (await auth.signInWithCredential(poneAuthCredential)).user;
-                 if(user!=null){
-                   loading = false;
-                   notifyListeners();
-                   _userServices.getUserById(user.uid).then((snapShot) {
-                     if(snapShot.exists){
-                       if(screen=='Login'){
-                      Navigator.pushReplacementNamed(context, LandingPage.id);
-                       }else{
-                         updateUser(id: user.uid, number: user.phoneNumber);
-                         Navigator.pushReplacementNamed(context, MainScreen.id);
-                       }
-                     }else{
-                       _createUser(id: user.uid, number: user.phoneNumber);
-                       Navigator.pushReplacementNamed(context, LandingPage.id);
-                     }
-                   });
-                 }else{
-                    // ignore: use_build_context_synchronously
-                    Utils.flushBarErrorMessage("Login Failed", context);
-                   if (kDebugMode) {
-                     print('Login Failed');
-                   }
-                 }
-
-               }catch(e){
-                 if (kDebugMode) {
-                   print(e.toString());
-                 }
-                 // Utils.flushBarErrorMessage("Invalid OTP", context);
-                 error = "Invalid OTP".toUpperCase();
-                 Navigator.of(context).pop();
-               }
-              },
-              child: const Text('VERIFY'),
-            ),
-          )
-        ],
       );
         }).whenComplete(() {
           loading = false;
@@ -156,8 +176,8 @@ class AuthProviders extends ChangeNotifier{
       "longitude": longitude,
       "address": address,
       'location': location,
-      'firstName': 'First Name',
-      'lastName': 'Last Name',
+      'firstName': 'name',
+      'lastName': '',
       'email': 'email'
     });
     loading = false;
@@ -172,9 +192,6 @@ class AuthProviders extends ChangeNotifier{
         "longitude": longitude,
         "address": address,
         'location': location,
-        'firstName': 'First Name',
-        'lastName': 'Last Name',
-        'email': 'email'
       });
       loading = false;
       notifyListeners();
