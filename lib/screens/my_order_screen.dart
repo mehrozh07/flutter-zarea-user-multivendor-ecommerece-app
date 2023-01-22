@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zarea_user/auth_providers/order_provider.dart';
 import '../services/order_service.dart';
 import 'package:chips_choice/chips_choice.dart';
@@ -128,6 +129,30 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                           padding: const EdgeInsets.only(left: 8.0, right: 20),
                           child: ListTile(
                             tileColor: Theme.of(context).primaryColor.withOpacity(0.3),
+                              trailing: TextButton(
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    backgroundColor: Theme.of(context).primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                  ),
+                                  onPressed: () async{
+                                    // For android
+                                    var uri = 'sms:${document['deliveryBoy']['phone']}?body=Hi there? Where are you now??';
+                                    if (await launch(uri)) {
+                                    await launch(uri);
+                                    } else {
+                                    // iOS
+                                    var uri = 'sms:${document['deliveryBoy']['phone']}?body=Hello there where you now?';
+                                    if (await launch(uri)) {
+                                    await launch(uri);
+                                    } else {
+                                    throw 'Could not launch $uri';
+                                    }
+                                    }
+                                  },
+                                  child: const Icon(Icons.message_rounded, color: Colors.white,)),
                             leading: CircleAvatar(
                               backgroundImage: NetworkImage('${document['deliveryBoy']['image']}',),
                             ),

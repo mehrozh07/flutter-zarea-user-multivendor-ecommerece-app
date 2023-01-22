@@ -28,31 +28,36 @@ class VendorScreen extends StatefulWidget {
 
 class _VendorScreenState extends State<VendorScreen> {
   DocumentSnapshot? snapshot;
-
-  @override
-  void initState() {
+  getData(){
     FirebaseFirestore.instance
         .collection('products')
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
-       setState(() {
-          snapshot = doc;
-         VendorScreen.productModel.add(
-           ProductModel(
-             brand: doc['brand'],
-             comparedPrice: doc['comapredPrice'],
-             productCategory: doc['category']['mainCategory'],
-             weight: doc['weight'],
-             productName: doc['productName'],
-             productPrice: int.parse(doc['price']),
-             shipName: doc['seller']['shopName'],
-             documentSnapshot: doc,
-           ) 
-         );
-       });
+       if(mounted){
+         setState(() {
+           snapshot = doc;
+           VendorScreen.productModel.add(
+               ProductModel(
+                 brand: doc['brand'],
+                 comparedPrice: doc['comapredPrice'],
+                 productCategory: doc['category']['mainCategory'],
+                 weight: doc['weight'],
+                 productName: doc['productName'],
+                 productPrice: int.parse(doc['price']),
+                 shipName: doc['seller']['shopName'],
+                 documentSnapshot: doc,
+               )
+           );
+         });
+       }
       }
     });
+  }
+
+  @override
+  void initState() {
+    getData();
     super.initState();
   }
 @override

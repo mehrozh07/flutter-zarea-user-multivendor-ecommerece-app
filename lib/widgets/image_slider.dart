@@ -52,14 +52,17 @@ class _SliderWidgetState extends State<SliderWidget> {
                   ),
               ) :
               Padding(
-                padding: EdgeInsets.only(top: 4.h),
+                padding: const EdgeInsets.only(top: 4,left: 4,right: 5),
                 child: CarouselSlider.builder(
                     itemCount: snapShot.data.length,
                     itemBuilder: (BuildContext context, int index, int){
                       DocumentSnapshot sliderImage = snapShot.data[index]?? 0;
                       Map getImage = sliderImage.data() as Map;
-                      return SizedBox(
+                      return Container(
                         width: MediaQuery.of(context).size.width,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(6))
+                        ),
                         child: Image.network(getImage['image'], fit: BoxFit.fill,)
                       );
                     },

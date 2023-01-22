@@ -120,18 +120,22 @@ class MapScreenState extends State<ProfileScreen>
                                mainAxisAlignment: MainAxisAlignment.center,
                                crossAxisAlignment: CrossAxisAlignment.center,
                                children: [
-                                 Text('${auth.documentSnapshot?['location']}',
-                                 maxLines: 2,
-                                 style: TextStyle(
-                                   overflow: TextOverflow.ellipsis,
-                                   fontSize: MediaQuery.textScaleFactorOf(context)*13,
-                                 ),),
-                                 Text('${auth.documentSnapshot?['address']}',
-                                   maxLines: 3,
+                                 Container(
+                                   child: Text('${auth.documentSnapshot?['location']}',
+                                   maxLines: 2,
                                    style: TextStyle(
                                      overflow: TextOverflow.ellipsis,
-                                     fontSize: MediaQuery.textScaleFactorOf(context)*9,
-                                   ),)
+                                     fontSize: MediaQuery.textScaleFactorOf(context)*15,
+                                   ),),
+                                 ),
+                                 SizedBox(
+                                   width: MediaQuery.of(context).size.width*0.7,
+                                   child: Text('${auth.documentSnapshot?['address']}',
+                                     style: TextStyle(
+                                       overflow: TextOverflow.ellipsis,
+                                       fontSize: MediaQuery.textScaleFactorOf(context)*12,
+                                     ),),
+                                 )
                                ],
                              ),
                              TextButton(

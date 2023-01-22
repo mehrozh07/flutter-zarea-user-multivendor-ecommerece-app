@@ -8,7 +8,7 @@ class CartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int saving = snapshot!['comapredPrice']-snapshot!['price'];
+    var saving = snapshot!['comapredPrice']-snapshot!['price'];
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -67,8 +67,7 @@ class CartCard extends StatelessWidget {
                 child: FittedBox(
                   child: CircleAvatar(
                     backgroundColor: Colors.redAccent,
-                    child: Text(
-                      saving.toStringAsFixed(0),
+                    child: Text(saving.toStringAsFixed(0).toString(),
                     style: const TextStyle(
                       color: Colors.white,
                     ),),

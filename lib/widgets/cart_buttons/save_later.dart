@@ -68,12 +68,4 @@ getFavProducts(){
       ),
     );
   }
-  // Future<void> saveForLater() {
-  //   CollectionReference favourite = FirebaseFirestore.instance.collection('favProducts');
-  //   User? user = FirebaseAuth.instance.currentUser;
-  //   return favourite.add({
-  //     'product': widget.snapshot?.data(),
-  //     'customerId': user?.uid,
-  //   });
-  // }
 }

@@ -18,7 +18,6 @@ class Utils{
         positionOffset: 20,
         icon: const Icon(Icons.error , size: 28 , color: Colors.white,),
       )..show(context),
-
     );
   }
 
@@ -26,7 +25,7 @@ class Utils{
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           content: Text(message),
-        backgroundColor: Theme.of(context).errorColor,
+        backgroundColor: Colors.black,
         behavior: SnackBarBehavior.floating,
       ),
     );

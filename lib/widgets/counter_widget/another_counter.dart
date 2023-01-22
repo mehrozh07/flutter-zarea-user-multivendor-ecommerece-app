@@ -29,18 +29,22 @@ class _CounterForCardState extends State<CounterForCard> {
         .where('productId', isEqualTo: widget.snapshot?['productId'])
         .get()
         .then((QuerySnapshot querySnapshot) {
-      if(querySnapshot.docs.isNotEmpty){
-        for (var doc in querySnapshot.docs) {
-          if (doc['productId'] == widget.snapshot?['productId']) {
-            setState(() {
-              quantity = doc['quantity'];
-              docId = doc.id;
-              exist = true;
-            });
+      if(mounted){
+        if(querySnapshot.docs.isNotEmpty){
+          for (var doc in querySnapshot.docs) {
+            if (doc['productId'] == widget.snapshot?['productId']) {
+              setState(() {
+                quantity = doc['quantity'];
+                docId = doc.id;
+                exist = true;
+              });
+            }
           }
+        }else{
+          setState(() {
+            exist = false;
+          });
         }
-      }else{
-        exist = false;
       }
     });
   }

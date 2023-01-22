@@ -28,8 +28,7 @@ class FavoriteScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         children: [
           FutureBuilder<QuerySnapshot>(
-            future: productService.featured
-                .where('favorites', arrayContains: FirebaseAuth.instance.currentUser?.uid).get(),
+            future: productService.featured.where('favorites', arrayContains: FirebaseAuth.instance.currentUser?.uid).get(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
                 return const Text('Something went wrong');

@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ];
           },
           body: ListView(
+            padding: EdgeInsets.zero,
             children: [
               const SliderWidget(),
               Container(

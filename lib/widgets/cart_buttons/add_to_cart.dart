@@ -49,11 +49,13 @@ CartService cartService = CartService();
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
         if(doc['productId'] == widget.snapshot?['productId']){
-          setState(() {
-            exist = true;
-            quantity = doc['quantity'];
-            docId = doc.id;
-          });
+          if(mounted){
+            setState(() {
+              exist = true;
+              quantity = doc['quantity'];
+              docId = doc.id;
+            });
+          }
         }
       }
     });
