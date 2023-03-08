@@ -26,16 +26,16 @@ import 'auth_providers/cart_provider.dart';
 import 'auth_providers/order_provider.dart';
 
 Map<int, Color> color = {
-  50:  const Color.fromRGBO(62, 180, 137, .1),
-  100: const Color.fromRGBO(62, 180, 137, .2),
-  200: const Color.fromRGBO(62, 180, 137, .3),
-  300: const Color.fromRGBO(62, 180, 137, .4),
-  400: const Color.fromRGBO(62, 180, 137, .5),
-  500: const Color.fromRGBO(62, 180, 137, .6),
-  600: const Color.fromRGBO(62, 180, 137, .7),
-  700: const Color.fromRGBO(62, 180, 137, .8),
-  800: const Color.fromRGBO(62, 180, 137, .9),
-  900: const Color.fromRGBO(62, 180, 137, 1),
+  50:  const Color.fromRGBO(41, 152, 214, .1),
+  100: const Color.fromRGBO(41, 152, 214, .2),
+  200: const Color.fromRGBO(41, 152, 214, .3),
+  300: const Color.fromRGBO(41, 152, 214, .4),
+  400: const Color.fromRGBO(41, 152, 214, .5),
+  500: const Color.fromRGBO(41, 152, 214, .6),
+  600: const Color.fromRGBO(41, 152, 214, .7),
+  700: const Color.fromRGBO(41, 152, 214, .8),
+  800: const Color.fromRGBO(41, 152, 214,.9),
+  900: const Color.fromRGBO(41, 152, 214, 1),
 };
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -88,8 +88,8 @@ class _MyAppState extends State<MyApp> {
           title: 'Zarea',
           theme: ThemeData(
             useMaterial3: true,
-            primarySwatch: MaterialColor(0xFF3EB489, color),
-            primaryColor: const Color(0xFF3EB489),
+            primarySwatch: MaterialColor(0xff299AD6, color),
+            primaryColor: const Color(0xff299AD6),
             fontFamily: 'Lato',
             // iconTheme: const IconThemeData(color: Colors.white),
           ),

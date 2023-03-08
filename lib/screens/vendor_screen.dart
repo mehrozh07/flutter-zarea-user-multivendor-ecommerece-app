@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
-import 'package:search_page/search_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zarea_user/models/product_model.dart';
 import 'package:zarea_user/product_widgets/featured_products.dart';
@@ -14,13 +13,15 @@ import 'package:zarea_user/screens/product_detail.dart';
 import 'package:zarea_user/widgets/counter_widget/another_counter.dart';
 import 'package:zarea_user/widgets/image_slider.dart';
 import '../auth_providers/store_provider.dart';
+import 'package:search_page/search_page.dart';
 import '../widgets/category_widgets.dart';
 import '../product_widgets/recently_added.dart';
 
 class VendorScreen extends StatefulWidget {
   static const id = "Vendor-Screen";
+  final String? storeID;
   static List<ProductModel> productModel = [];
-  const VendorScreen({Key? key}) : super(key: key);
+  const VendorScreen({Key? key, this.storeID}) : super(key: key);
 
   @override
   State<VendorScreen> createState() => _VendorScreenState();
@@ -76,7 +77,7 @@ class _VendorScreenState extends State<VendorScreen> {
       // [AvailableMap { mapName: Google Maps, mapType: google }, ...]
       await availableMaps.first.showMarker(
         coords: Coords(location.latitude, location.longitude),
-        title: "${storeProvider.documentSnapshot!["shopName"] + "is here"}",
+        title: "${storeProvider.documentSnapshot?["shopName"] + "is here"}",
       );
     }
 
@@ -101,7 +102,6 @@ class _VendorScreenState extends State<VendorScreen> {
                 actions: [
                   IconButton(
                       onPressed: () => {
-
                         showSearch(
                           context: context,
                           delegate: SearchPage(
@@ -122,8 +122,8 @@ class _VendorScreenState extends State<VendorScreen> {
                             ],
                             // sort: (a, b) => a.compareTo(b),
                             builder: (products){
-                              String offer = ((products.documentSnapshot!['comapredPrice']
-                                  - products.documentSnapshot!['price'])/products.documentSnapshot!['comapredPrice']*100)
+                              String offer = ((products.documentSnapshot?['comapredPrice']
+                                  - products.documentSnapshot?['price'])/products.documentSnapshot?['comapredPrice']*100)
                                   .toStringAsFixed(0);
                               return products.shipName == products.shipName ?
                               Container(
@@ -155,8 +155,8 @@ class _VendorScreenState extends State<VendorScreen> {
                                               child: ClipRRect(
                                                   borderRadius: BorderRadius.circular(10),
                                                   child: Hero(
-                                                    tag: '${products.documentSnapshot!['productImage']}',
-                                                    child: Image.network('${products.documentSnapshot!['productImage']}',
+                                                    tag: '${products.documentSnapshot?['productImage']}',
+                                                    child: Image.network('${products.documentSnapshot?['productImage']}',
                                                       fit: BoxFit.cover,),
                                                   )),
                                             ),
@@ -190,7 +190,7 @@ class _VendorScreenState extends State<VendorScreen> {
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text('${products.documentSnapshot!['brand']}',
+                                              Text('${products.documentSnapshot?['brand']}',
                                                 style: GoogleFonts.poppins(
                                                     textStyle: TextStyle(
                                                       fontSize: textSize*14,
@@ -198,7 +198,7 @@ class _VendorScreenState extends State<VendorScreen> {
                                                     )
                                                 ),),
                                               const SizedBox(height: 5,),
-                                              Text('${products.documentSnapshot!['productName']}', style: GoogleFonts.poppins(
+                                              Text('${products.documentSnapshot?['productName']}', style: GoogleFonts.poppins(
                                                   textStyle: TextStyle(
                                                     fontSize: textSize*14,
                                                     fontWeight: FontWeight.bold,
@@ -212,7 +212,7 @@ class _VendorScreenState extends State<VendorScreen> {
                                                   borderRadius: BorderRadius.circular(4),
                                                   color: Colors.grey.shade400,
                                                 ),
-                                                child: Text('${products.documentSnapshot!['weight']}Kg', style: GoogleFonts.poppins(
+                                                child: Text('${products.documentSnapshot?['weight']}Kg', style: GoogleFonts.poppins(
                                                     textStyle: TextStyle(
                                                       fontSize: textSize*14,
                                                       fontWeight: FontWeight.bold,
@@ -222,14 +222,14 @@ class _VendorScreenState extends State<VendorScreen> {
                                               const SizedBox(height: 5,),
                                               Row(
                                                 children: [
-                                                  Text('Rs:${products.documentSnapshot!['price'].toString()}', style: GoogleFonts.poppins(
+                                                  Text('Rs:${products.documentSnapshot?['price'].toString()}', style: GoogleFonts.poppins(
                                                       textStyle: TextStyle(
                                                         fontSize: textSize*14,
                                                         fontWeight: FontWeight.bold,
                                                       )
                                                   ),),
                                                   const SizedBox(width: 10,),
-                                                  Text('Rs:${products.documentSnapshot!['comapredPrice'].toString()}',
+                                                  Text('Rs:${products.documentSnapshot?['comapredPrice'].toString()}',
                                                     style: GoogleFonts.poppins(
                                                         textStyle: TextStyle(
                                                             decoration: TextDecoration.lineThrough,

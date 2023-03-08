@@ -73,9 +73,11 @@ class AuthProviders extends ChangeNotifier{
     return showDialog(context: context,
         builder: (BuildContext context){
       return Dialog(
+        backgroundColor: Colors.transparent,
         child: Container(
           height: MediaQuery.of(context).size.height*0.3,
           padding: const EdgeInsets.all(20),
+          color: Colors.white70,
           child: SizedBox(
             height: 80,
             child: Column(
@@ -90,10 +92,8 @@ class AuthProviders extends ChangeNotifier{
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.blueGrey.shade100,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
                       hintText: "Enter valid otp",
                       labelText: "6-digit OTP"
                     ),
@@ -107,7 +107,7 @@ class AuthProviders extends ChangeNotifier{
                         child: TextButton(
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.green,
+                            backgroundColor: Theme.of(context).primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6),
                             ),

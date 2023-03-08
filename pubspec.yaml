@@ -45,6 +45,7 @@ dependencies:
   dotted_border: ^2.0.0+3
   chips_choice: ^3.0.0
   search_page: ^2.2.0
+  country_picker: ^2.0.20
 
 dev_dependencies:
   flutter_test:
@@ -55,8 +56,8 @@ dev_dependencies:
 
 
 flutter_native_splash:
-  color: "#3EB489"
-  image: assets/images/logo.png
+  color: "#FFFFFF"
+  image: assets/images/home_logo.png
 
 
 

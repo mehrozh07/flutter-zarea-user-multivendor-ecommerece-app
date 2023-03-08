@@ -1,9 +1,9 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zarea_user/auth_providers/auth_provider.dart';
 import 'package:zarea_user/auth_providers/location_provider.dart';
-import 'package:zarea_user/screens/home_page.dart';
 
 class LoginScreen extends StatefulWidget {
   static const id = 'Login-Screen';
@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 String phone = '';
+  var countryCode;
   @override
   Widget build(BuildContext context) {
         final auth = Provider.of<AuthProviders?>(context);
@@ -53,25 +54,82 @@ String phone = '';
               const SizedBox(
                 height: 30,
               ),
-              TextFormField(
-                maxLength: 10,
-                onChanged: (value){
-                  phone = value;
-                },
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(left: 6, right: 0, top: 0, bottom: 0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide.none,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+              flex: 2,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.blueGrey.shade100,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    visualDensity: const VisualDensity(vertical: 1.5),
+                    padding: EdgeInsets.zero,
                   ),
-                  fillColor: Colors.blueGrey.shade100,
-                  filled: true,
-                  counter: const Offstage(),
-                  hintText: "Phone",
-                  prefixText: "+92 "
+                  onPressed: () {
+                    showCountryPicker(
+                      context: context,
+                      exclude: <String>['KN', 'MF'],
+                      favorite: <String>['PK'],
+                      showPhoneCode: true,
+                      useSafeArea: true,
+                      onSelect: (Country country) {
+                        setState(() {
+                          countryCode = country.phoneCode;
+                        });
+                        if (kDebugMode) {
+                          print('Select country: ${country.countryCode}');
+                        }
+                      },
+                      countryListTheme: CountryListThemeData(
+                        borderRadius: BorderRadius.circular(6),
+                        inputDecoration: const InputDecoration(
+                          labelText: 'Search',
+                          hintText: 'Start typing to search',
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        // Optional. Styles the text in the search field
+                        searchTextStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+                    );
+                  },
+                  child: countryCode == null? const Text("country Code") : Text(countryCode) ,
                 ),
               ),
+              const SizedBox(width: 1),
+              Expanded(
+                flex: 8,
+                child: TextFormField(
+                  maxLength: 10,
+                  onChanged: (value){
+                    phone = value;
+                  },
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(left: 6, right: 0, top: 0, bottom: 0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide.none,
+                      ),
+                      fillColor: Colors.blueGrey.shade100,
+                      filled: true,
+                      counter: const Offstage(),
+                      hintText: "Phone",
+                  ),
+                ),
+              ),
+            ],
+          ),
+
               const SizedBox(
                 height: 20,
               ),
@@ -80,7 +138,7 @@ String phone = '';
                 height: 45,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green.shade600,
+                        backgroundColor: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                                onPressed: () async{
@@ -94,7 +152,7 @@ String phone = '';
                                 auth?.longitude = locationData.longitude;
                                 auth?.address = locationData.selectedAddress.addressLine;
                               });
-                              String number = "+92$phone";
+                              String number = "+$countryCode$phone";
                               auth?.verifyPhone(
                                 context: context,
                                 number: number,

@@ -7,9 +7,9 @@ import '../services/product_service.dart';
 
 class FavoriteScreen extends StatelessWidget {
   static const id = '/favorite-screen';
-   FavoriteScreen({Key? key}) : super(key: key);
-  ProductService productService = ProductService();
+    FavoriteScreen({Key? key}) : super(key: key);
 
+final ProductService productService = ProductService();
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -27,8 +27,9 @@ class FavoriteScreen extends StatelessWidget {
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
         children: [
-          FutureBuilder<QuerySnapshot>(
-            future: productService.featured.where('favorites', arrayContains: FirebaseAuth.instance.currentUser?.uid).get(),
+          StreamBuilder<QuerySnapshot>(
+            stream: productService.featured.where('favorites',
+                arrayContains: FirebaseAuth.instance.currentUser?.uid).snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
                 return const Text('Something went wrong');

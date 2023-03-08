@@ -126,7 +126,7 @@ class _TopPickedStoreState extends State<TopPickedStore> {
                                   PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                                     context,
                                     settings: const RouteSettings(name: VendorScreen.id),
-                                    screen: const VendorScreen(),
+                                    screen: VendorScreen(storeID: document.id),
                                     withNavBar: true,
                                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                                   );

@@ -5,10 +5,29 @@ class Assets {
   static const String imagesCity = 'assets/images/city.png';
   static const String imagesDeliverfood = 'assets/images/deliverfood.png';
   static const String imagesEnteraddress = 'assets/images/enteraddress.png';
+  static const String imagesHomeLogo = 'assets/images/home_logo.png';
   static const String imagesLike = 'assets/images/like.gif';
   static const String imagesLogo = 'assets/images/logo.png';
   static const String imagesMarker = 'assets/images/marker.png';
   static const String imagesOrderfood = 'assets/images/orderfood.png';
+  static const String imagesScreenshot20230122170954 = 'assets/images/Screenshot_20230122-170954.jpg';
+  static const String imagesScreenshot20230122171004 = 'assets/images/Screenshot_20230122-171004.jpg';
+  static const String imagesScreenshot20230122171250 = 'assets/images/Screenshot_20230122-171250.jpg';
+  static const String imagesScreenshot20230122171256 = 'assets/images/Screenshot_20230122-171256.jpg';
+  static const String imagesScreenshot20230122171306 = 'assets/images/Screenshot_20230122-171306.jpg';
+  static const String imagesScreenshot20230122171324 = 'assets/images/Screenshot_20230122-171324.jpg';
+  static const String imagesScreenshot20230122171347 = 'assets/images/Screenshot_20230122-171347.jpg';
+  static const String imagesScreenshot20230122171356 = 'assets/images/Screenshot_20230122-171356.jpg';
+  static const String imagesScreenshot20230122171405 = 'assets/images/Screenshot_20230122-171405.jpg';
+  static const String imagesScreenshot20230122171437 = 'assets/images/Screenshot_20230122-171437.jpg';
+  static const String imagesScreenshot20230122171627 = 'assets/images/Screenshot_20230122-171627.jpg';
+  static const String imagesScreenshot20230122171941 = 'assets/images/Screenshot_20230122-171941.jpg';
+  static const String imagesScreenshot20230122171956 = 'assets/images/Screenshot_20230122-171956.jpg';
+  static const String imagesScreenshot20230122172007 = 'assets/images/Screenshot_20230122-172007.jpg';
+  static const String imagesScreenshot20230122172018 = 'assets/images/Screenshot_20230122-172018.jpg';
+  static const String imagesScreenshot20230122184215 = 'assets/images/Screenshot_20230122-184215.jpg';
+  static const String imagesScreenshot20230122205754 = 'assets/images/Screenshot_20230122-205754.jpg';
+  static const String imagesScreenshot20230122205802 = 'assets/images/Screenshot_20230122-205802.jpg';
   static const String imagesZAREA = 'assets/images/ZAREA.png';
 
 }

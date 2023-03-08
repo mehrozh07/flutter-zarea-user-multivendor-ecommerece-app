@@ -15,7 +15,7 @@ class ProductCard extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
 
-    String offer = ((snapshot!['comapredPrice'] - snapshot!['price'])/snapshot!['comapredPrice']*100)
+    String offer = ((snapshot?['comapredPrice'] - snapshot?['price'])/snapshot?['comapredPrice']*100)
         .toStringAsFixed(0);
     return Container(
       height: height*0.25,
@@ -32,7 +32,7 @@ class ProductCard extends StatelessWidget {
                   PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                     context,
                     settings: const RouteSettings(name: ProductDetail.id),
-                    screen:  ProductDetail(document: snapshot,),
+                    screen:  ProductDetail(document: snapshot),
                     withNavBar: false,
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
@@ -46,8 +46,8 @@ class ProductCard extends StatelessWidget {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Hero(
-                          tag: '${snapshot!['productImage']}',
-                          child: Image.network('${snapshot!['productImage']}',
+                          tag: '${snapshot?['productImage']}',
+                          child: Image.network('${snapshot?['productImage']}',
                             fit: BoxFit.cover,),
                         )),
                   ),
@@ -81,7 +81,7 @@ class ProductCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${snapshot!['brand']}',
+                    Text('${snapshot?['brand']}',
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           fontSize: textSize*14,
@@ -89,7 +89,7 @@ class ProductCard extends StatelessWidget {
                         )
                     ),),
                     const SizedBox(height: 5,),
-                    Text('${snapshot!['productName']}', style: GoogleFonts.poppins(
+                    Text('${snapshot?['productName']}', style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           fontSize: textSize*14,
                           fontWeight: FontWeight.bold,
@@ -103,7 +103,7 @@ class ProductCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4),
                         color: Colors.grey.shade400,
                       ),
-                      child: Text('${snapshot!['weight']}Kg', style: GoogleFonts.poppins(
+                      child: Text('${snapshot?['weight']}Kg', style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                             fontSize: textSize*14,
                             fontWeight: FontWeight.bold,
@@ -113,14 +113,14 @@ class ProductCard extends StatelessWidget {
                     const SizedBox(height: 5,),
                     Row(
                       children: [
-                        Text('Rs:${snapshot!['price'].toString()}', style: GoogleFonts.poppins(
+                        Text('Rs:${snapshot?['price'].toString()}', style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                               fontSize: textSize*14,
                               fontWeight: FontWeight.bold,
                             )
                         ),),
                         const SizedBox(width: 10,),
-                        Text('Rs:${snapshot!['comapredPrice'].toString()}',
+                        Text('Rs:${snapshot?['comapredPrice'].toString()}',
                           style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                               decoration: TextDecoration.lineThrough,

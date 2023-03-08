@@ -59,9 +59,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             builder: (BuildContext context, StateSetter myState) {
           return Container(
             decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-              Theme.of(context).primaryColor,
-                  Theme.of(context).primaryColor.withOpacity(0.3),
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12)
+              ),
+                gradient: LinearGradient(
+                    colors: [
+                      Theme.of(context).primaryColor.withOpacity(0.4),
+                      Theme.of(context).primaryColor.withOpacity(0.2),
             ])),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -76,7 +81,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           },
                           icon: const Icon(
                             Icons.arrow_back_ios,
-                            color: Colors.white,
+                            color: Colors.black54,
                           )),
                       Padding(
                         padding: EdgeInsets.only(left: 90.w),
@@ -85,7 +90,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black54,
                                 fontSize: 20.sp),
                             ),
                         ),
@@ -98,84 +103,84 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   Visibility(
                     visible: auth.error == "INVALID OTP" ? true : false,
                     child: Text("${auth.error}-TRY AGAIN",
-                      style: const TextStyle(color: Colors.red),),
+                      style: const TextStyle(color: Colors.pinkAccent),),
                   ),
                   SizedBox(
                     height: 30.h,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 20.w, left: 20.w),
-                    child: TextFormField(
-                      style: const TextStyle(color: Colors.white, fontSize: 18),
-                      controller: phoneNumberC,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        prefixText: '+92 ',
-                        prefixStyle:
-                            TextStyle(color: Colors.white, fontSize: 20.sp),
-                        label: Text(
-                          'Enter 10 digit number',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 20.sp),
-                        ),
-                        labelStyle: const TextStyle(color: Colors.white),
+                  TextFormField(
+                    style: const TextStyle(color: Colors.black54, fontSize: 18),
+                    controller: phoneNumberC,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+                      border: const OutlineInputBorder(),
+                      prefixText: '+92 ',
+                      prefixStyle:
+                          TextStyle(color: Colors.black54, fontSize: 20.sp),
+                      label: Text(
+                        'Enter 10 digit number',
+                        style:
+                            TextStyle(color: Colors.black54, fontSize: 20.sp),
                       ),
-                      autofocus: true,
-                      maxLength: 10,
-                      onChanged: (value) {
-                        if (value.length == 10) {
-                          setState(() {
-                            validPhoneNumber = true;
-                          });
-                        } else {
-                          setState(() {
-                            validPhoneNumber = false;
-                          });
-                        }
-                      },
+                      labelStyle: const TextStyle(color: Colors.black54),
                     ),
+                    autofocus: true,
+                    maxLength: 10,
+                    onChanged: (value) {
+                      if (value.length == 10) {
+                        setState(() {
+                          validPhoneNumber = true;
+                        });
+                      } else {
+                        setState(() {
+                          validPhoneNumber = false;
+                        });
+                      }
+                    },
                   ),
                   SizedBox(
                     height: 10.h,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 20.w, left: 20.w),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: AbsorbPointer(
-                            absorbing: validPhoneNumber ? false : true,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                foregroundColor: Colors.white, backgroundColor: validPhoneNumber
-                                    ? Colors.green
-                                    : Colors.grey,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AbsorbPointer(
+                          absorbing: validPhoneNumber ? false : true,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
                               ),
-                              onPressed: () {
-                                myState((){
+                              backgroundColor: validPhoneNumber
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey,
+                            ),
+                            onPressed: () {
+                              myState((){
+                                auth.loading = true;
+                              });
+                              String number = "+92${phoneNumberC.text}";
+                              auth.verifyPhone(context: context, number: number,).then((value) {
+                                phoneNumberC.clear();
+                                setState(() {
                                   auth.loading = true;
                                 });
-                                String number = "+92${phoneNumberC.text}";
-                                auth.verifyPhone(context: context, number: number,).then((value) {
-                                  phoneNumberC.clear();
-                                  auth.loading = false;
-                                });
-                                if (kDebugMode) {
-                                  print(phoneNumberC.text);
-                                }
-                              },
-                              child: auth.loading?  const CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                              )
-                                  :Text(validPhoneNumber
-                                  ? "SEND OTP"
-                                  : "ENTER PHONE NUMBER TO CONTINUE"),
-                            ),
+                              });
+                              debugPrint(phoneNumberC.text);
+                            },
+                            child: auth.loading?  const CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
+                            )
+                                :Text(validPhoneNumber
+                                ? "SEND OTP"
+                                : "ENTER PHONE NUMBER TO CONTINUE",
+                              style: const TextStyle(color: Colors.black54),),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   )
                 ],
               ),

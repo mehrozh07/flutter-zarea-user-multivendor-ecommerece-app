@@ -111,11 +111,16 @@ var storeProvider = Provider.of<StoreProvider>(context);
                             child: Column(
                               children: [
                                 Center(
-                                  child: Image.network(documentSnapshot['image'], fit: BoxFit.fill,),
+                                  child: Image.network(
+                                      documentSnapshot['image'],
+                                      fit: BoxFit.cover),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8, right: 8),
-                                  child: Text("${documentSnapshot['name']}", textAlign: TextAlign.center,),
+                                  child: Text("${documentSnapshot['name']}",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,),
                                 ),
                               ],
                             ),
